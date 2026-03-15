@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0c0a09; color: #444; }
+        body { font-family: 'Inter', sans-serif; background-color: #0c0a09; color: #444; overflow-x: hidden; }
         .font-serif { font-family: 'Crimson Text', serif; }
         * { scroll-behavior: smooth; }
         
@@ -26,17 +26,33 @@
         .stage {
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             pointer-events: none;
+            opacity: 0;
+            transform: scale(0.95);
         }
         .stage.active {
             opacity: 1 !important;
             transform: scale(1) !important;
             pointer-events: auto;
         }
+
+        /* Animasi Piringan Hitam/Musik */
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Musik Kontrol -->
+    <!-- Musik Kontrol & Audio Element -->
+    <audio id="wedding-music" loop>
+        <!-- Ganti URL ini dengan link MP3 musik pilihan Anda -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+    
     <div id="music-control" class="fixed bottom-6 right-6 z-[100] p-4 bg-white/90 backdrop-blur rounded-full shadow-2xl cursor-pointer hover:scale-110 transition-transform">
         <i data-lucide="volume-x" id="music-icon" class="text-rose-400"></i>
     </div>
@@ -52,18 +68,18 @@
             </div>
 
             <!-- STAGE 1: PEMBUKA -->
-            <div id="stage-1" class="stage absolute z-10 text-center text-white p-6 opacity-0 scale-90">
+            <div id="stage-1" class="stage absolute z-10 text-center text-white p-6">
                 <p class="tracking-[0.5em] text-xs md:text-sm mb-4 font-light uppercase">Walimatul 'Ursy</p>
                 <h1 class="text-6xl md:text-9xl font-serif italic mb-8 drop-shadow-lg">Jamilah & Irfan</h1>
-                <p class="tracking-[0.3em] font-bold text-rose-200 mb-12">16 April 2026</p>
+                <p class="tracking-[0.3em] font-bold text-rose-200 mb-12 uppercase">16 April 2026</p>
                 <div class="animate-bounce opacity-40 flex flex-col items-center">
-                    <span class="text-[10px] mb-2 uppercase tracking-widest">Scroll ke bawah</span>
-                    <i data-lucide="chevron-down"></i>
+                    <span class="text-[10px] mb-2 uppercase tracking-widest text-white">Scroll ke bawah</span>
+                    <i data-lucide="chevron-down" class="text-white"></i>
                 </div>
             </div>
 
             <!-- STAGE 2: AYAT -->
-            <div id="stage-2" class="stage absolute z-20 max-w-2xl px-6 w-full text-center opacity-0 scale-90">
+            <div id="stage-2" class="stage absolute z-20 max-w-2xl px-6 w-full text-center">
                 <div class="bg-white/95 p-10 rounded-[3rem] shadow-2xl border-4 border-double border-rose-50">
                     <i data-lucide="heart" class="mx-auto text-rose-300 mb-6 fill-rose-300"></i>
                     <p class="italic text-stone-600 text-lg leading-relaxed mb-6 font-serif">
@@ -74,7 +90,7 @@
             </div>
 
             <!-- STAGE 3: MEMPELAI -->
-            <div id="stage-3" class="stage absolute z-30 w-full max-w-4xl px-6 opacity-0 scale-90">
+            <div id="stage-3" class="stage absolute z-30 w-full max-w-4xl px-6">
                 <div class="flex flex-col md:flex-row items-center gap-8 bg-white/90 p-8 rounded-[3rem] shadow-2xl">
                     <div class="text-center flex-1">
                         <div class="w-36 h-48 mx-auto mb-4 rounded-t-full overflow-hidden border-4 border-white shadow-md">
@@ -95,59 +111,64 @@
             </div>
 
             <!-- STAGE 4: JADWAL -->
-            <div id="stage-4" class="stage absolute z-40 w-full max-w-4xl px-6 opacity-0 scale-90 text-center">
+            <div id="stage-4" class="stage absolute z-40 w-full max-w-4xl px-6 text-center">
                 <div class="grid md:grid-cols-2 gap-4 mb-8">
                     <div class="bg-white p-8 rounded-3xl shadow-xl">
                         <i data-lucide="calendar" class="mx-auto text-rose-300 mb-4"></i>
                         <h3 class="text-xl font-serif font-bold">Akad Nikah</h3>
-                        <p class="text-sm mt-2 text-stone-500 italic">Masjid An- Nur</p>
+                        <p class="text-sm mt-2 text-stone-500 italic">Masjid An-Nur</p>
+                        <p class="text-[10px] mt-1 font-bold">Pukul 09.00 WIB</p>
                     </div>
                     <div class="bg-stone-800 text-white p-8 rounded-3xl shadow-xl">
                         <i data-lucide="map-pin" class="mx-auto text-rose-300 mb-4"></i>
                         <h3 class="text-xl font-serif font-bold">Resepsi</h3>
                         <p class="text-sm mt-2 text-stone-300 italic">Kediaman Mempelai Wanita</p>
+                        <p class="text-[10px] mt-1 font-bold text-rose-200">Pukul 11.00 WIB s/d Selesai</p>
                     </div>
                 </div>
                 <!-- Countdown -->
-                <div class="flex justify-center gap-6 text-white mt-12">
-                    <div class="text-center">
-                        <div id="days" class="text-3xl font-serif font-bold">0</div>
-                        <div class="text-[8px] uppercase tracking-widest text-stone-400">HARI</div>
+                <div class="flex justify-center gap-4 md:gap-6 text-white mt-12 bg-black/40 p-6 rounded-[2rem] backdrop-blur-md border border-white/10 shadow-2xl">
+                    <div class="text-center px-2">
+                        <div id="days" class="text-3xl md:text-4xl font-serif font-bold">0</div>
+                        <div class="text-[8px] md:text-[10px] uppercase tracking-widest text-rose-200 mt-1">HARI</div>
                     </div>
-                    <div class="text-center">
-                        <div id="hours" class="text-3xl font-serif font-bold">0</div>
-                        <div class="text-[8px] uppercase tracking-widest text-stone-400">JAM</div>
+                    <div class="text-center px-2">
+                        <div id="hours" class="text-3xl md:text-4xl font-serif font-bold">0</div>
+                        <div class="text-[8px] md:text-[10px] uppercase tracking-widest text-rose-200 mt-1">JAM</div>
                     </div>
-                    <div class="text-center">
-                        <div id="minutes" class="text-3xl font-serif font-bold">0</div>
-                        <div class="text-[8px] uppercase tracking-widest text-stone-400">MENIT</div>
+                    <div class="text-center px-2">
+                        <div id="minutes" class="text-3xl md:text-4xl font-serif font-bold">0</div>
+                        <div class="text-[8px] md:text-[10px] uppercase tracking-widest text-rose-200 mt-1">MENIT</div>
+                    </div>
+                    <div class="text-center px-2">
+                        <div id="seconds" class="text-3xl md:text-4xl font-serif font-bold">0</div>
+                        <div class="text-[8px] md:text-[10px] uppercase tracking-widest text-rose-200 mt-1">DETIK</div>
                     </div>
                 </div>
             </div>
 
             <!-- STAGE 5: BUKU DOA -->
-            <div id="stage-5" class="stage absolute z-50 w-full max-w-lg px-6 opacity-0 scale-90">
-                <div class="bg-white p-8 rounded-[3rem] shadow-2xl text-center">
+            <div id="stage-5" class="stage absolute z-50 w-full max-w-lg px-6">
+                <div class="bg-white p-8 rounded-[3rem] shadow-2xl text-center border border-stone-100">
                     <i data-lucide="message-circle" class="mx-auto text-rose-300 mb-4"></i>
-                    <h2 class="text-2xl font-serif font-bold mb-6">Kirim Doa Restu</h2>
+                    <h2 class="text-2xl font-serif font-bold mb-6 text-stone-800">Kirim Doa Restu</h2>
                     <form id="doa-form" class="space-y-4">
-                        <input required id="input-nama" class="w-full p-4 rounded-2xl bg-stone-50 border-none text-sm focus:ring-2 focus:ring-rose-100" placeholder="Nama Anda">
-                        <textarea required id="input-doa" rows="3" class="w-full p-4 rounded-2xl bg-stone-50 border-none text-sm resize-none focus:ring-2 focus:ring-rose-100" placeholder="Tulis ucapan bahagia..."></textarea>
+                        <input required id="input-nama" class="w-full p-4 rounded-2xl bg-stone-50 border-stone-200 border text-sm focus:ring-2 focus:ring-rose-200 outline-none transition-all" placeholder="Nama Anda">
+                        <textarea required id="input-doa" rows="3" class="w-full p-4 rounded-2xl bg-stone-50 border-stone-200 border text-sm resize-none focus:ring-2 focus:ring-rose-200 outline-none transition-all" placeholder="Tulis ucapan bahagia..."></textarea>
                         <button type="submit" class="w-full py-4 bg-stone-900 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all">Kirim Ucapan</button>
                     </form>
                 </div>
             </div>
 
             <!-- STAGE 6: DAFTAR DOA -->
-            <div id="stage-6" class="stage absolute z-[60] w-full max-w-2xl px-6 opacity-0 scale-90">
-                <div class="bg-white/95 p-8 rounded-[3rem] shadow-2xl max-h-[70vh] flex flex-col">
-                    <h2 class="text-2xl font-serif font-bold text-center mb-6">Ucapan & Harapan</h2>
+            <div id="stage-6" class="stage absolute z-[60] w-full max-w-2xl px-6">
+                <div class="bg-white/95 p-8 rounded-[3rem] shadow-2xl max-h-[70vh] flex flex-col border border-stone-100">
+                    <h2 class="text-2xl font-serif font-bold text-center mb-6 text-stone-800">Ucapan & Harapan</h2>
                     <div id="doa-list" class="overflow-y-auto space-y-4 pr-2 custom-scrollbar">
-                        <!-- Doa akan muncul di sini via JS -->
-                        <p class="text-center text-stone-400 italic text-sm">Kirim Ucapan...</p>
+                        <p class="text-center text-stone-400 italic text-sm">Belum ada ucapan...</p>
                     </div>
                     <div class="mt-8 pt-4 border-t border-stone-100 text-center opacity-40">
-                        <p class="text-lg font-serif italic">Irfan & Jamilah</p>
+                        <p class="text-lg font-serif italic text-stone-900">Jamilah & Irfan</p>
                     </div>
                 </div>
             </div>
@@ -161,8 +182,14 @@
 
         // Data & State
         let isPlaying = false;
-        const weddingDate = new Date('2024-12-31T09:00:00').getTime();
+        // UPDATE TANGGAL TARGET DI SINI:
+        const weddingDate = new Date('2026-04-16T09:00:00').getTime(); 
+        
         const bgZoom = document.getElementById('bg-zoom');
+        const audio = document.getElementById('wedding-music');
+        const musicIcon = document.getElementById('music-icon');
+        const musicBtn = document.getElementById('music-control');
+        
         const stages = [
             document.getElementById('stage-1'),
             document.getElementById('stage-2'),
@@ -172,14 +199,20 @@
             document.getElementById('stage-6')
         ];
 
-        // Musik Toggle
-        document.getElementById('music-control').addEventListener('click', () => {
-            isPlaying = !isPlaying;
-            const icon = document.getElementById('music-icon');
-            if(isPlaying) {
-                icon.setAttribute('data-lucide', 'volume-2');
+        // Musik Toggle Logic
+        musicBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(error => {
+                    console.log("Autoplay dicegah oleh browser.");
+                });
+                isPlaying = true;
+                musicIcon.setAttribute('data-lucide', 'volume-2');
+                musicBtn.classList.add('spin');
             } else {
-                icon.setAttribute('data-lucide', 'volume-x');
+                audio.pause();
+                isPlaying = false;
+                musicIcon.setAttribute('data-lucide', 'volume-x');
+                musicBtn.classList.remove('spin');
             }
             lucide.createIcons();
         });
@@ -191,10 +224,10 @@
             const progress = scrollPos / totalHeight;
 
             // Background Zoom
-            bgZoom.style.transform = `scale(${1 + progress * 15})`;
-            bgZoom.style.opacity = 1 - progress * 0.5;
+            bgZoom.style.transform = `scale(${1 + progress * 12})`;
+            bgZoom.style.opacity = 1 - progress * 0.45;
 
-            // Stage Control (Menghitung range scroll untuk tiap stage)
+            // Stage Control
             const stageRanges = [
                 [0, 0.08],     // Stage 1
                 [0.15, 0.25],  // Stage 2
@@ -214,16 +247,29 @@
             });
         });
 
-        // Countdown Logic
-        setInterval(() => {
+        // Countdown Logic (Ke 16 April 2026)
+        function updateCountdown() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
+            
+            if (distance < 0) {
+                document.getElementById('days').innerText = "0";
+                document.getElementById('hours').innerText = "0";
+                document.getElementById('minutes').innerText = "0";
+                document.getElementById('seconds').innerText = "0";
+                return;
+            }
+
             document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        }, 1000);
+            document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }
 
-        // Form Doa Logic (Local UI)
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Jalankan sekali di awal
+
+        // Form Doa Logic
         const doaForm = document.getElementById('doa-form');
         const doaList = document.getElementById('doa-list');
         const messages = [];
@@ -233,16 +279,16 @@
             const nama = document.getElementById('input-nama').value;
             const doa = document.getElementById('input-doa').value;
             
-            // Simpan ke array (Simulasi database lokal)
             messages.unshift({ nama, doa });
             renderDoa();
             
-            doaForm.innerHTML = `<div class="py-8 text-rose-400 font-bold">Terima kasih atas doanya! ❤️</div>`;
+            doaForm.innerHTML = `<div class="py-8 text-rose-400 font-bold animate-pulse">Terima kasih atas doanya! ❤️</div>`;
         });
 
         function renderDoa() {
+            if (messages.length === 0) return;
             doaList.innerHTML = messages.map(m => `
-                <div class="p-4 bg-stone-50 rounded-2xl border border-stone-100 flex gap-3">
+                <div class="p-4 bg-stone-50 rounded-2xl border border-stone-100 flex gap-3 transition-all hover:shadow-md">
                     <div class="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center flex-shrink-0 text-rose-400 font-bold text-xs uppercase">
                         ${m.nama.charAt(0)}
                     </div>
