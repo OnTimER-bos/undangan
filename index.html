@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Kita - Romeo & Juliet</title>
+    
+    <!-- Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0c0a09; color: #444; }
+        .font-serif { font-family: 'Crimson Text', serif; }
+        * { scroll-behavior: smooth; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #fecaca; border-radius: 10px; }
+        
+        /* Animasi Transisi Halus */
+        .stage {
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            pointer-events: none;
+        }
+        .stage.active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Musik Kontrol -->
+    <div id="music-control" class="fixed bottom-6 right-6 z-[100] p-4 bg-white/90 backdrop-blur rounded-full shadow-2xl cursor-pointer hover:scale-110 transition-transform">
+        <i data-lucide="volume-x" id="music-icon" class="text-rose-400"></i>
+    </div>
+
+    <!-- Scroll Track -->
+    <div style="height: 1200vh;">
+        <div class="fixed top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center">
+            
+            <!-- Background Image dengan Zoom -->
+            <div id="bg-zoom" class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-300 ease-out" 
+                 style="background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070');">
+                <div class="absolute inset-0 bg-black/50"></div>
+            </div>
+
+            <!-- STAGE 1: PEMBUKA -->
+            <div id="stage-1" class="stage absolute z-10 text-center text-white p-6 opacity-0 scale-90">
+                <p class="tracking-[0.5em] text-xs md:text-sm mb-4 font-light uppercase">Walimatul 'Ursy</p>
+                <h1 class="text-6xl md:text-9xl font-serif italic mb-8 drop-shadow-lg">Romeo & Juliet</h1>
+                <p class="tracking-[0.3em] font-bold text-rose-200 mb-12">31 DESEMBER 2024</p>
+                <div class="animate-bounce opacity-40 flex flex-col items-center">
+                    <span class="text-[10px] mb-2 uppercase tracking-widest">Scroll ke bawah</span>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- STAGE 2: AYAT -->
+            <div id="stage-2" class="stage absolute z-20 max-w-2xl px-6 w-full text-center opacity-0 scale-90">
+                <div class="bg-white/95 p-10 rounded-[3rem] shadow-2xl border-4 border-double border-rose-50">
+                    <i data-lucide="heart" class="mx-auto text-rose-300 mb-6 fill-rose-300"></i>
+                    <p class="italic text-stone-600 text-lg leading-relaxed mb-6 font-serif">
+                        "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya."
+                    </p>
+                    <p class="text-[10px] font-bold text-stone-400 tracking-widest uppercase">— Ar-Rum: 21 —</p>
+                </div>
+            </div>
+
+            <!-- STAGE 3: MEMPELAI -->
+            <div id="stage-3" class="stage absolute z-30 w-full max-w-4xl px-6 opacity-0 scale-90">
+                <div class="flex flex-col md:flex-row items-center gap-8 bg-white/90 p-8 rounded-[3rem] shadow-2xl">
+                    <div class="text-center flex-1">
+                        <div class="w-36 h-48 mx-auto mb-4 rounded-t-full overflow-hidden border-4 border-white shadow-md">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974" class="w-full h-full object-cover">
+                        </div>
+                        <h2 class="text-2xl font-serif font-bold">Romeo Montague</h2>
+                        <p class="text-[10px] text-rose-400 font-bold mt-2 uppercase">Putra Bp. Romeo Sr. & Ibu Romeo</p>
+                    </div>
+                    <div class="text-4xl text-rose-200 font-serif italic hidden md:block">＆</div>
+                    <div class="text-center flex-1">
+                        <div class="w-36 h-48 mx-auto mb-4 rounded-t-full overflow-hidden border-4 border-white shadow-md">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974" class="w-full h-full object-cover">
+                        </div>
+                        <h2 class="text-2xl font-serif font-bold">Juliet Capulet</h2>
+                        <p class="text-[10px] text-rose-400 font-bold mt-2 uppercase">Putri Bp. Juliet Sr. & Ibu Juliet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 4: JADWAL -->
+            <div id="stage-4" class="stage absolute z-40 w-full max-w-4xl px-6 opacity-0 scale-90 text-center">
+                <div class="grid md:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-xl">
+                        <i data-lucide="calendar" class="mx-auto text-rose-300 mb-4"></i>
+                        <h3 class="text-xl font-serif font-bold">Akad Nikah</h3>
+                        <p class="text-sm mt-2 text-stone-500 italic">Masjid Agung Kota Baru</p>
+                    </div>
+                    <div class="bg-stone-800 text-white p-8 rounded-3xl shadow-xl">
+                        <i data-lucide="map-pin" class="mx-auto text-rose-300 mb-4"></i>
+                        <h3 class="text-xl font-serif font-bold">Resepsi</h3>
+                        <p class="text-sm mt-2 text-stone-300 italic">Gedung Pertemuan Indah</p>
+                    </div>
+                </div>
+                <!-- Countdown -->
+                <div class="flex justify-center gap-6 text-white mt-12">
+                    <div class="text-center">
+                        <div id="days" class="text-3xl font-serif font-bold">0</div>
+                        <div class="text-[8px] uppercase tracking-widest text-stone-400">HARI</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="hours" class="text-3xl font-serif font-bold">0</div>
+                        <div class="text-[8px] uppercase tracking-widest text-stone-400">JAM</div>
+                    </div>
+                    <div class="text-center">
+                        <div id="minutes" class="text-3xl font-serif font-bold">0</div>
+                        <div class="text-[8px] uppercase tracking-widest text-stone-400">MENIT</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 5: BUKU DOA -->
+            <div id="stage-5" class="stage absolute z-50 w-full max-w-lg px-6 opacity-0 scale-90">
+                <div class="bg-white p-8 rounded-[3rem] shadow-2xl text-center">
+                    <i data-lucide="message-circle" class="mx-auto text-rose-300 mb-4"></i>
+                    <h2 class="text-2xl font-serif font-bold mb-6">Kirim Doa Restu</h2>
+                    <form id="doa-form" class="space-y-4">
+                        <input required id="input-nama" class="w-full p-4 rounded-2xl bg-stone-50 border-none text-sm focus:ring-2 focus:ring-rose-100" placeholder="Nama Anda">
+                        <textarea required id="input-doa" rows="3" class="w-full p-4 rounded-2xl bg-stone-50 border-none text-sm resize-none focus:ring-2 focus:ring-rose-100" placeholder="Tulis ucapan bahagia..."></textarea>
+                        <button type="submit" class="w-full py-4 bg-stone-900 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all">Kirim Ucapan</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- STAGE 6: DAFTAR DOA -->
+            <div id="stage-6" class="stage absolute z-[60] w-full max-w-2xl px-6 opacity-0 scale-90">
+                <div class="bg-white/95 p-8 rounded-[3rem] shadow-2xl max-h-[70vh] flex flex-col">
+                    <h2 class="text-2xl font-serif font-bold text-center mb-6">Ucapan & Harapan</h2>
+                    <div id="doa-list" class="overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+                        <!-- Doa akan muncul di sini via JS -->
+                        <p class="text-center text-stone-400 italic text-sm">Belum ada ucapan...</p>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-stone-100 text-center opacity-40">
+                        <p class="text-lg font-serif italic">Romeo & Juliet</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Inisialisasi Icon
+        lucide.createIcons();
+
+        // Data & State
+        let isPlaying = false;
+        const weddingDate = new Date('2024-12-31T09:00:00').getTime();
+        const bgZoom = document.getElementById('bg-zoom');
+        const stages = [
+            document.getElementById('stage-1'),
+            document.getElementById('stage-2'),
+            document.getElementById('stage-3'),
+            document.getElementById('stage-4'),
+            document.getElementById('stage-5'),
+            document.getElementById('stage-6')
+        ];
+
+        // Musik Toggle
+        document.getElementById('music-control').addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            const icon = document.getElementById('music-icon');
+            if(isPlaying) {
+                icon.setAttribute('data-lucide', 'volume-2');
+            } else {
+                icon.setAttribute('data-lucide', 'volume-x');
+            }
+            lucide.createIcons();
+        });
+
+        // Scroll Logic
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = scrollPos / totalHeight;
+
+            // Background Zoom
+            bgZoom.style.transform = `scale(${1 + progress * 15})`;
+            bgZoom.style.opacity = 1 - progress * 0.5;
+
+            // Stage Control (Menghitung range scroll untuk tiap stage)
+            const stageRanges = [
+                [0, 0.08],     // Stage 1
+                [0.15, 0.25],  // Stage 2
+                [0.35, 0.45],  // Stage 3
+                [0.55, 0.65],  // Stage 4
+                [0.75, 0.85],  // Stage 5
+                [0.92, 1.0]    // Stage 6
+            ];
+
+            stages.forEach((el, i) => {
+                const [start, end] = stageRanges[i];
+                if (progress >= start && progress <= end) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+        });
+
+        // Countdown Logic
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+
+        // Form Doa Logic (Local UI)
+        const doaForm = document.getElementById('doa-form');
+        const doaList = document.getElementById('doa-list');
+        const messages = [];
+
+        doaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nama = document.getElementById('input-nama').value;
+            const doa = document.getElementById('input-doa').value;
+            
+            // Simpan ke array (Simulasi database lokal)
+            messages.unshift({ nama, doa });
+            renderDoa();
+            
+            doaForm.innerHTML = `<div class="py-8 text-rose-400 font-bold">Terima kasih atas doanya! ❤️</div>`;
+        });
+
+        function renderDoa() {
+            doaList.innerHTML = messages.map(m => `
+                <div class="p-4 bg-stone-50 rounded-2xl border border-stone-100 flex gap-3">
+                    <div class="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center flex-shrink-0 text-rose-400 font-bold text-xs uppercase">
+                        ${m.nama.charAt(0)}
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-stone-800">${m.nama}</p>
+                        <p class="text-[11px] text-stone-600 italic">"${m.doa}"</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
